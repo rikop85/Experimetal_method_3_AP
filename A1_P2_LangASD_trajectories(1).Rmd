@@ -136,6 +136,7 @@ Remember: a growth curve model assesses whether changes in time can be described
 First build the different models, then compare them to see which one is better
 
 ```{r}
+pppoppooppopoo
 
 ```
 
