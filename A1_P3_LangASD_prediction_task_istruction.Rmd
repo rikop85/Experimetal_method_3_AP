@@ -7,6 +7,73 @@ output: html_document
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+
+
+
+library(dplyr)
+library(lmerTest)
+library(ggplot2)
+library(hydroGOF)
+library(gstat)
+library(caret)
+library(pacman)
+
+library(lme4)
+
+p_load(merTools)
+sub_train<- createDataPartition(y=final_A1$subj_id,p=0.75, list=FALSE)ù
+
+
+sub_01= subset(final_A1, select = c(subj_id, Diagnosis, Age, Gender, Ethnicity, visit, ADOS, MullenRaw, ExpressiveLangRaw, MOT_MLU, CHI_MLU, types_MOT, types_CHI, tokens_MOT, tokens_CHI))
+
+
+
+bm_001 = lmer(CHI_MLU ~ ADOS + ExpressiveLangRaw + (1+ visit|subj_id), final_A1)
+summary(bm_001)
+
+Preds<- predict(bm_001)
+
+RMSE(final_A1$CHI_MLU, Preds)
+
+flds<-createFolds(unique(final_A1),k = 5)
+
+
+
+
+bm_002<-lmer(CHI_MLU ~ ADOS + ExpressiveLangRaw + (1+ visit|subj_id), demo_train )
+pREDS2<-predict(bm_001,final_A1_TEST)
+
+RMSE(final_A1_TEST$CHI_MLU, pREDS2)
+
+
+final_predict<- predictInterval(bm_001,final_A1_TEST )
+
+
+for (i in folds) {
+
+   
+  
+}
+  
+  
+
+  
+
+
+CV1 <- cross_validate(data, "score~diagnosis", 
+                     folds_col = '.flds', 
+                     family='gaussian', 
+                     REML = FALSE)
+
+
+
+
+
+
+
+
+
+
 ```
 
 ## Welcome to the third exciting part of the Language Development in ASD exercise
